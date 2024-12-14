@@ -63,8 +63,8 @@ export default function FamilyHealth(){
 
         setMarkedDates(marks);
       } catch (error) {
-        console.error('데이터 가져오기 실패: ', error);
-        Alert.alert('데이터 오류', '캘린더 데이터를 가져오는 중 문제가 발생했습니다.');
+        // console.error('데이터 가져오기 실패: ', error);
+        // Alert.alert('데이터 오류', '캘린더 데이터를 가져오는 중 문제가 발생했습니다.');
       }
     };
 

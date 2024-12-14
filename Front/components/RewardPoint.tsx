@@ -19,12 +19,12 @@ const fetchRewardPoints = async (userId) => {
     const points = await response.json();
     return points;
   } catch (error) {
-    console.error('Error fetching reward points:', error);
+    // console.error('Error fetching reward points:', error);
     return 0;
   }
 };
 
-export default function RewardPoints() {
+export default function RewardPoints({ refreshKey }) {
   const [points, setPoints] = useState(0);
   const { user, isLoading } = useUserData();
 
@@ -36,7 +36,7 @@ export default function RewardPoints() {
       }
     };
     getPoints();
-  }, [user]);
+  }, [user, refreshKey]);
 
   if (isLoading) {
     return <Text>Loading...</Text>;

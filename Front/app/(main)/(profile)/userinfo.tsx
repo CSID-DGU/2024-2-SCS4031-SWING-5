@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput,StyleSheet, TouchableOpacity, Button, ActivityIndicator, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useUserData } from '../../../context/UserDataContext';
+import { useRouter } from 'expo-router';
 
-export default function UserInfo() {
+export default function UserInfo({ useNavigation }) {
     const { user } = useUserData();
-    const navigation = useNavigation();
+    const router = useRouter();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
@@ -15,6 +15,10 @@ export default function UserInfo() {
       gender: '',
       age: '',
     });
+
+    const handleGoBack = () => {
+      router.back(); // 이전 페이지로 이동
+    };
   
     const fetchUserData = async (userId) => {
       try {
@@ -98,7 +102,7 @@ export default function UserInfo() {
       <View style={styles.container}>
         <View style={styles.profileCard}>
           <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={handleGoBack}>
                     <Image
                     source={require('../../../assets/images/back.png')} 
                     style={styles.backIcon}

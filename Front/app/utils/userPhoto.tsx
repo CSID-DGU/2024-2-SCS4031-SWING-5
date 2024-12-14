@@ -1,8 +1,22 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, Alert, TouchableOpacity, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ActivityIndicator,
+  Alert,
+  TouchableOpacity,
+  Platform,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  ImageStyle,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useOCRWithParser } from '../../hooks/useOCRWithParser';
+import OCRLayout from './OCRLayout'; // OCRLayout 가져오기
 
 
 export default function UserPhoto() {
@@ -21,7 +35,6 @@ export default function UserPhoto() {
 
   async function pickImage() {
     if (Platform.OS === 'web') {
-      // 웹 환경에서 파일 선택 처리
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
@@ -29,14 +42,13 @@ export default function UserPhoto() {
         const file = event.target.files[0];
         if (file) {
           const reader = new FileReader();
-          reader.onload = () => setPhotoUri(reader.result as string); // Base64 이미지 데이터 설정
+          reader.onload = () => setPhotoUri(reader.result as string);
           reader.onerror = () => Alert.alert('오류', '이미지를 읽을 수 없습니다.');
           reader.readAsDataURL(file);
         }
       };
       input.click();
     } else {
-      // 네이티브 환경
       const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (!permissionResult.granted) {
         Alert.alert('권한 필요', '앨범 접근 권한이 필요합니다.');
@@ -107,33 +119,38 @@ export default function UserPhoto() {
   }
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.backButton} onPress={() => router.push('/(main)/registerOptions')}>
-        <Image source={require('../../assets/images/back.png')} style={styles.backButtonIcon} />
-      </TouchableOpacity>
+    <OCRLayout>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.push('/(main)/registerOptions')}
+        >
+          <Image source={require('../../assets/images/back.png')} style={styles.backButtonIcon} />
+        </TouchableOpacity>
 
-      {photoUri ? (
-        <>
-          <Image source={{ uri: photoUri }} style={styles.selectedPhoto} />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.retakeButton} onPress={pickImage}>
-              <Text style={styles.retakeButtonText}>다시 선택</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
-              <Text style={styles.detectButtonText}>인식하기</Text>
-            </TouchableOpacity>
-          </View>
-          {loading && (
-            <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#0000ff" />
-              <Text style={styles.loadingText}>인식 중...</Text>
+        {photoUri ? (
+          <>
+            <Image source={{ uri: photoUri }} style={styles.selectedPhoto} />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.retakeButton} onPress={pickImage}>
+                <Text style={styles.retakeButtonText}>다시 선택</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
+                <Text style={styles.detectButtonText}>인식하기</Text>
+              </TouchableOpacity>
             </View>
-          )}
-        </>
-      ) : (
-        <Text style={styles.loadingText}> </Text>
-      )}
-    </View>
+            {loading && (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={styles.loadingText}>인식 중...</Text>
+              </View>
+            )}
+          </>
+        ) : (
+          <Text style={styles.loadingText}> </Text>
+        )}
+      </View>
+    </OCRLayout>
   );
 }
 
@@ -142,35 +159,35 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 80,
     paddingTop: 50,
-  },
+  } as ViewStyle,
   backButton: {
     position: 'absolute',
     top: 10,
     left: 10,
     zIndex: 1,
-  },
+  } as ViewStyle,
   backButtonIcon: {
     width: 30,
     height: 30,
     resizeMode: 'contain',
-  },
+  } as ImageStyle,
   selectedPhoto: {
     width: '100%',
-    height: '60%',
+    height: '80%',
     resizeMode: 'contain',
     marginTop: 80,
-  },
+  } as ImageStyle,
   loadingContainer: {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: [{ translateX: -50 }, { translateY: -50 }],
     alignItems: 'center',
-  },
+  } as ViewStyle,
   loadingText: {
     fontSize: 18,
     color: 'black',
-  },
+  } as TextStyle,
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -178,29 +195,37 @@ const styles = StyleSheet.create({
     bottom: 30,
     width: '80%',
     alignSelf: 'center',
-  },
+  } as ViewStyle,
   retakeButton: {
-    flex: 1,
+    backgroundColor: '#a9aabc', // 버튼 색상 변경
     paddingVertical: 12,
-    marginHorizontal: 5,
-    backgroundColor: 'rgba(108, 110, 140, 0.7)',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
+    paddingHorizontal: 20,
+    borderRadius: 25, // 둥근 모서리
+    shadowColor: '#000', // 그림자 효과
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+  } as ViewStyle,
   detectButton: {
-    flex: 1,
+    backgroundColor: '#82a3ff', // 버튼 색상 변경
     paddingVertical: 12,
-    marginHorizontal: 5,
-    backgroundColor: 'rgba(160, 164, 242, 0.7)',
-    borderRadius: 10,
-    alignItems: 'center',
-  },
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    shadowColor: '#000', // 그림자 효과
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+  } as ViewStyle,
   retakeButtonText: {
     color: 'white',
     fontSize: 16,
-  },
+    fontWeight: 'bold',
+    textAlign: 'center',
+  } as TextStyle,
   detectButtonText: {
     color: 'white',
     fontSize: 16,
-  },
+    fontWeight: 'bold',
+    textAlign: 'center',
+  } as TextStyle,
 });

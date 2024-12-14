@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs } from 'expo-router';
 import { useFamilyContext } from '@/context/FamilyContext';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 
@@ -26,8 +26,9 @@ export default function FamilyLayout() {
         tabBarStyle: {
           backgroundColor: 'white',
           borderTopWidth: 0,
-          height: 75,
-          paddingBottom: 20,
+          height: 70,
+          paddingBottom: 5,
+          paddingTop: 8
         },
         headerShown: true,
         headerStyle: { backgroundColor: '#AFB8DA' },
@@ -69,21 +70,35 @@ export default function FamilyLayout() {
     >
       <Tabs.Screen
         name="familyMedication"
-        options={{
-          title: '복약 관리',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'medkit' : 'medkit-outline'} color={color} />
-          ),
-        }}
+          options={{
+            title: '복약 관리',
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={require('../../assets/images/medical-record.png')}
+                style={{
+                  ...styles.tabIcon,
+                  tintColor: focused ? '#595958' : '#aaa',
+                  opacity: focused ? 1 : 0.5,
+                }}
+              />
+            ),
+          }}
       />
       <Tabs.Screen
         name="familyHealth"
-        options={{
-          title: '건강 캘린더',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'heart' : 'heart-outline'} color={color} />
-          ),
-        }}
+          options={{
+            title: '건강 캘린더',
+            tabBarIcon: ({ focused }) => (
+              <Image
+                source={require('../../assets/images/schedule.png')}
+                style={{
+                  ...styles.tabIcon,
+                  tintColor: focused ? '#595958' : '#aaa',
+                  opacity: focused ? 1 : 0.5,
+                }}
+              />
+            ),
+          }}
       />
     </Tabs>
   );
@@ -133,5 +148,10 @@ const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 14,
     color: '#595958',
+  },
+  tabIcon: {
+    width: 28, // 탭 아이콘 크기 조정
+    height: 28,
+    marginBottom: 5, // 여백 추가
   },
 });

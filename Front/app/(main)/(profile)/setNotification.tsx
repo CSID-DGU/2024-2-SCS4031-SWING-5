@@ -1,15 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
-export default function NotificationSettings() {
-    const navigation = useNavigation();
+export default function NotificationSettings({ useNavigation }) {
+    const router = useRouter();
+
+    const handleGoBack = () => {
+        router.back(); // 이전 페이지로 이동
+      };
 
     return (
         <View style={styles.container}>
             <View style={styles.profileCard}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={handleGoBack}>
                     <Image
                     source={require('../../../assets/images/back.png')} // 뒤로가기 아이콘
                     style={styles.backIcon}

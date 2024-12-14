@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ActivityIndicator, Alert, Modal } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useUserData } from '../../../context/UserDataContext';
+import { useRouter } from 'expo-router';
 
-export default function FamilyLink() {
-  const navigation = useNavigation();
+export default function FamilyLink({ useNavigation }) {
   const { user } = useUserData();
+  const router = useRouter();
   const [isLinked, setIsLinked] = useState(null); // 가족 연동 여부
   const [familyCode, setFamilyCode] = useState(''); // 가족 코드
   const [loading, setLoading] = useState(true); // 로딩 상태
@@ -14,6 +14,9 @@ export default function FamilyLink() {
   const [modalMessage, setModalMessage] = useState(''); // 모달에 표시할 메시지
   const [error, setError] = useState(false);
 
+  const handleGoBack = () => {
+    router.back(); // 이전 페이지로 이동
+  };
 
   // 가족 연동 여부 확인
   const checkFamilyLink = async () => {
@@ -135,7 +138,7 @@ export default function FamilyLink() {
       <View style={styles.profileCard}>
         {/* 헤더 */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={handleGoBack}>
             <Image
               source={require('../../../assets/images/back.png')}
               style={styles.backIcon}
@@ -192,7 +195,7 @@ export default function FamilyLink() {
               <Text style={styles.deleteButtonText}>가족 탈퇴하기</Text>
             </TouchableOpacity>
             <Text style={styles.descriptionText}>
-              가족 탈퇴를 하게 되면 가족 연동 정보와 <br />가족 코드 내역이 모두 사라집니다.
+              가족 탈퇴를 하게 되면 가족 연동 정보와 가족 코드 내역이 모두 사라집니다.
             </Text>
           </View>
         )}

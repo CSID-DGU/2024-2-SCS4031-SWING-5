@@ -18,15 +18,16 @@ export default function TabLayout() {
         screenOptions={{
           tabBarActiveTintColor: '#595958',
           tabBarLabelStyle : {
-            marginTop : -5,
+            marginTop : 0,
             fontSize : 12,
           },
 
           tabBarStyle: {
             backgroundColor: 'white',
             borderTopWidth: 0,
-            height: 90, // 탭 바 높이 조정
-            paddingBottom: 10, // 여백 조정
+            height: 70, // 탭 바 높이 조정
+            paddingBottom: 5, // 여백 조정
+            paddingTop: 8
           },
           headerShown: true,
           headerStyle: { backgroundColor: '#AFB8DA' },
@@ -44,6 +45,7 @@ export default function TabLayout() {
                   style={styles.headerIcon}
                 />
               </Link>
+              <View style={styles.rightP}></View>
               <Link href="/chat">
                 <Image
                   source={require('../../assets/images/chat.png')}
@@ -96,7 +98,7 @@ export default function TabLayout() {
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
-                  top: -10, // 중앙 버튼 위치 조정
+                  top: -5, // 중앙 버튼 위치 조정
                 }}
                 onPress={() => router.push('/(main)/registerOptions')}
               >
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
   },
   familyRoleText: {
     color: '#ffffff',
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: 'bold',
   },
   headerRight: {
@@ -183,4 +185,7 @@ const styles = StyleSheet.create({
     height: 28,
     marginBottom: 5, // 여백 추가
   },
+  rightP: {
+    width: 9
+  }
 });

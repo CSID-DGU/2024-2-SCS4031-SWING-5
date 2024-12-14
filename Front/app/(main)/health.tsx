@@ -9,12 +9,14 @@ import { LineChart } from 'react-native-chart-kit';
 import Schedule from'@/components/Schedule';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useSegments } from 'expo-router';
 
 const HealthCalendar = () => {
   const { user } = useUserData();
   const [selectedDate, setSelectedDate] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [markedDates, setMarkedDates] = useState({});
+  const segments = useSegments();
 
   // 현재 날짜 초기화
   useEffect(() => {
@@ -23,6 +25,15 @@ const HealthCalendar = () => {
     setSelectedDate(formattedToday); // 선택된 날짜를 오늘 날짜로 초기화
     setCurrentDate(formatMonth(today)); // 현재 연월을 초기화
   }, []);
+
+  useEffect(() => {
+    if (segments[1] === 'medication') {
+      const today = new Date();
+      const formattedToday = formatDate(today);
+      console.log('Medication tab pressed, refreshing...');
+      setSelectedDate(formattedToday);
+    }
+  }, [segments]);
 
   // 한 달 데이터를 가져오기 위한 API 요청
   useEffect(() => {
@@ -52,6 +63,8 @@ const HealthCalendar = () => {
             const color =
               item.calendarTargetCode === 'medicine'
                 ? '#FF0000' // 빨간색
+                : item.calendarTargetCode === 'schedule'
+                ? '#00FF00' //주황색
                 : '#0000FF'; // 파란색
 
             // 중복 점 방지
@@ -63,8 +76,8 @@ const HealthCalendar = () => {
 
         setMarkedDates(marks);
       } catch (error) {
-        console.error('데이터 가져오기 실패: ', error);
-        Alert.alert('데이터 오류', '캘린더 데이터를 가져오는 중 문제가 발생했습니다.');
+        // console.error('데이터 가져오기 실패: ', error);
+        // Alert.alert('데이터 오류', '캘린더 데이터를 가져오는 중 문제가 발생했습니다.');
       }
     };
 

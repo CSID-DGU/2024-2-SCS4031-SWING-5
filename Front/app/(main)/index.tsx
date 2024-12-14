@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MedicationList from '@/components/MedicationList';
 import RewardPoints from '@/components/RewardPoint';
 import { useUserData } from '@/context/UserDataContext';
 import { useFamilyContext } from '@/context/FamilyContext';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments  } from 'expo-router';
 import { fetchFamilyMembers } from '@/api/familyApi'; // API 호출 함수
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko'; // 한국어 설정
@@ -20,6 +20,8 @@ dayjs.locale('ko');
 
 export default function HomeScreen() {
     const { user } = useUserData();
+    const [refreshKey, setRefreshKey] = useState(0);
+    const segments = useSegments();
     
     // 화면에 표시할 날짜와 MedicationList에 전달할 날짜를 분리
     const todayDisplay = dayjs().format('MM월 DD일 (ddd)'); // 화면 표시용
@@ -29,13 +31,25 @@ export default function HomeScreen() {
     const router = useRouter();
 
     useEffect(() => {
+        if (segments[0] === '(main)') {
+          console.log('Home tab pressed, refreshing...');
+          setRefreshKey((prev) => prev + 1);
+        }
+        console.log("refreshkey: "+ refreshKey)
+      }, [segments]);
+
+    useEffect(() => {
+        console.log("Current segments:", segments);
+      }, [segments]);
+
+    useEffect(() => {
         const loadFamilyData = async () => {
             if (user && familyMembers.length === 0) {
                 try {
                     const fetchedMembers = await fetchFamilyMembers(user.userId); 
                     setFamilyMembers(fetchedMembers); 
                 } catch (error) {
-                    console.error('Failed to fetch family members:', error);
+                    // console.error('Failed to fetch family members:', error);
                 }
             }
         };
@@ -44,15 +58,15 @@ export default function HomeScreen() {
     }, [user, familyMembers, setFamilyMembers]);
 
     // AsyncStorage 로그 확인 (디버깅용)
-    AsyncStorage.getAllKeys().then((keys) => {
-        AsyncStorage.multiGet(keys).then((result) => {
-            console.log('AsyncStorage contents:', result);
-        });
-    });
+    // AsyncStorage.getAllKeys().then((keys) => {
+    //     AsyncStorage.multiGet(keys).then((result) => {
+    //         console.log('AsyncStorage contents:', result);
+    //     });
+    // });
 
     React.useEffect(() => {
-        console.log('Family members from context:', familyMembers);
-        console.log('Selected family from context:', selectedFamily);
+        // console.log('Family members from context:', familyMembers);
+        // console.log('Selected family from context:', selectedFamily);
     }, [familyMembers, selectedFamily]);
 
     const handleSelectFamily = (member) => {
@@ -74,7 +88,7 @@ export default function HomeScreen() {
                     <Text style={styles.errorText}>유저 정보를 불러오는 중입니다.</Text>
                 </View>
             )}
-            <RewardPoints />
+            <RewardPoints refreshKey={refreshKey} />
             <View style={styles.familyContainer}>
                 <Text style={styles.title}>우리가족</Text>
                 <View style={styles.familyList}>

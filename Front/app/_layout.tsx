@@ -4,7 +4,6 @@ import { Stack } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { UserDataProvider } from '../context/UserDataContext';
 import { FamilyProvider } from '@/context/FamilyContext';
-// import { DateProvider } from '@/context/DateContext';
 
 export default function Layout() {
   const colorScheme = useColorScheme();

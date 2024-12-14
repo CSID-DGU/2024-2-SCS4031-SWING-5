@@ -1,9 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Link } from 'expo-router';
 
-const MedicationList = ({ userId, selectedDate }) => {
+const FamilyMedicationList = ({ userId, selectedDate }) => {
     const [medicationData, setMedicationData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -61,10 +59,10 @@ const MedicationList = ({ userId, selectedDate }) => {
             <View style={styles.medicationContainer}>
                 {medicationData.length > 0 ? (
                     medicationData.map((medication, index) => (
-                        <Link
+                        <TouchableOpacity
                             key={index}
-                            href="/medication"
                             style={styles.medicationItem}
+                            activeOpacity={1} // 버튼 효과 제거
                         >
                             {/* 타입에 따른 이미지 렌더링 */}
                             <Image
@@ -78,7 +76,7 @@ const MedicationList = ({ userId, selectedDate }) => {
                             <View style={styles.medicationTextContainer}>
                                 <Text style={styles.medicationName}>{medication.medicineBagName}</Text>
                             </View>
-                        </Link>
+                        </TouchableOpacity>
                     ))
                 ) : (
                     <Text style={styles.noMedicationText}>복용 기록이 없습니다</Text>
@@ -156,4 +154,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default MedicationList;
+export default FamilyMedicationList;

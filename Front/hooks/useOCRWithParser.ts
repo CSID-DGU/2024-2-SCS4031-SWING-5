@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { parseOCRText } from '../app/utils/textParser';
-import { PrescriptionInfo } from '../types/types';
+import { PrescriptionInfo } from '../types/types'; // 타입 가져오기
 
 const GOOGLE_VISION_API_KEY = Constants.expoConfig?.extra?.googleVisionApiKey || 'fallback-api-key';
 
@@ -10,19 +9,17 @@ export const useOCRWithParser = async (imageUri: string): Promise<PrescriptionIn
     let imageBase64: string;
 
     if (Platform.OS === 'web') {
-      // 웹에서 Base64 추출
       if (imageUri.startsWith('data:image/')) {
         imageBase64 = imageUri.split(',')[1];
       } else {
         throw new Error('웹에서 지원되지 않는 이미지 형식입니다.');
       }
     } else {
-      // 네이티브 환경에서 Base64 변환
       const { readAsStringAsync } = await import('expo-file-system');
       imageBase64 = await readAsStringAsync(imageUri, { encoding: 'base64' });
     }
 
-    const body = JSON.stringify({
+    const visionRequestBody = JSON.stringify({
       requests: [
         {
           image: { content: imageBase64 },
@@ -31,44 +28,50 @@ export const useOCRWithParser = async (imageUri: string): Promise<PrescriptionIn
       ],
     });
 
-    const response = await fetch(
+    const visionResponse = await fetch(
       `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_VISION_API_KEY}`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body,
+        body: visionRequestBody,
       }
     );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('OCR 요청 실패:', errorText);
+    if (!visionResponse.ok) {
+      console.error('OCR 요청 실패:', await visionResponse.text());
       return null;
     }
 
-    const data = await response.json();
-    const rawText = data.responses[0]?.fullTextAnnotation?.text || '텍스트를 인식하지 못했습니다.';
-    const textAnnotations = data.responses[0]?.textAnnotations;
+    const visionData = await visionResponse.json();
+    const rawText = visionData.responses[0]?.fullTextAnnotation?.text || '';
+    // rawText 디버깅 출력
+    console.log('Google Vision API - OCR rawText:', rawText);
 
-    const medicinesWithPosition = textAnnotations?.slice(1).map((annotation: any) => {
-      const { description, boundingPoly } = annotation;
-      const vertices = boundingPoly?.vertices;
-      if (vertices && vertices.length === 4) {
-        const x = vertices[0].x || 0;
-        const y = vertices[0].y || 0;
-        const width = (vertices[1].x || x) - x;
-        const height = (vertices[2].y || y) - y;
-        return { description, position: { x, y, width, height } };
-      }
+    const backendRequestBody = JSON.stringify({ body: rawText });
+
+    const backendResponse = await fetch('http://localhost:8080/api/ocr/process', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: backendRequestBody,
+    });
+
+    if (!backendResponse.ok) {
+      console.error('백엔드 요청 실패:', await backendResponse.text());
       return null;
-    }).filter((item: any) => item !== null);
+    }
 
-    return parseOCRText(rawText, medicinesWithPosition);
+    const backendData: PrescriptionInfo = await backendResponse.json();
 
+    // backendData 디버깅 출력
+    console.log('Backend Response Data:', backendData);
+
+    return backendData;
   } catch (error) {
-    console.error('OCR 실패:', error);
+    console.error('OCR 처리 실패:', error);
     return null;
   }
 };

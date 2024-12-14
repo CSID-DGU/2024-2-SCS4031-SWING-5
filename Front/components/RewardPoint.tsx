@@ -1,22 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useUserData } from '@/context/UserDataContext';
 
-// 예시 API 요청 함수
-const fetchRewardPoints = async () => {
-  // 실제 API 요청 대신 예시 데이터 반환
-  return { points: 1320 }; // 실제 API가 구성되면 이 부분을 수정
+const fetchRewardPoints = async (userId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/reward/${userId}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch reward points: ${response.status}`);
+    }
+
+    const points = await response.json();
+    return points;
+  } catch (error) {
+    console.error('Error fetching reward points:', error);
+    return 0;
+  }
 };
 
 export default function RewardPoints() {
   const [points, setPoints] = useState(0);
+  const { user, isLoading } = useUserData();
 
   useEffect(() => {
     const getPoints = async () => {
-      const data = await fetchRewardPoints();
-      setPoints(data.points);
+      if (user && user.userId) {
+        const points = await fetchRewardPoints(user.userId);
+        setPoints(points);
+      }
     };
     getPoints();
-  }, []);
+  }, [user]);
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View style={styles.container}>

@@ -1,11 +1,25 @@
 import { StyleSheet, View, Text } from 'react-native';
-// import Calendar from '@/components/Calendar';
+import React, { useState } from 'react';
+import Calendar from '@/components/Calendar';
+import dayjs from 'dayjs';
+import FamilyMedication from '@/components/FamilyMedication';
+import { useFamilyContext } from '@/context/FamilyContext';
 
-export default function FamilyMedication(){
+export default function FamilyMedicationPage(){
+  const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const { selectedFamily } = useFamilyContext();
+
     return(
-        <View style={styles.container}>
-            <Text>가족 복약관리 페이지</Text>
+      <View style={styles.container}>
+        <Calendar selectedDate={selectedDate} onDateChange={setSelectedDate} />
+        {selectedFamily && selectedFamily.userId ? (
+        <FamilyMedication userId={selectedFamily.userId} selectedDate={selectedDate} />
+      ) : (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>가족 구성원을 선택해주세요.</Text>
         </View>
+      )}
+    </View>
       );
   }
   
@@ -13,24 +27,15 @@ export default function FamilyMedication(){
     container: {
       flex: 1,
       backgroundColor: '#F0F4FF',
+      padding: 0,
     },
-    header: {
-      width: '100%',
-      backgroundColor: '#AFB8DA',
-      paddingVertical: 10,
+    errorContainer: {
+      flex: 1,
+      justifyContent: 'center',
       alignItems: 'center',
     },
-    headerText: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#fff',
-    },
-    calendar: {
-      width: '100%',       
-      paddingHorizontal: 0,  
-    },
-    contentText: {
-      fontSize: 18,
-      marginTop: 16,
+    errorText: {
+      fontSize: 16,
+      color: 'red',
     },
   });

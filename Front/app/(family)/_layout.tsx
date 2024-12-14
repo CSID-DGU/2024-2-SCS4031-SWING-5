@@ -5,11 +5,10 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import { useRouter } from 'expo-router';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 
-
 export default function FamilyLayout() {
   const { familyMembers, selectedFamily, setSelectedFamily } = useFamilyContext();
   const router = useRouter();
-  const [showDropdown, setShowDropdown] = useState(false); // 드롭다운 토글 상태
+  const [showDropdown, setShowDropdown] = useState(false); 
 
   const handleToggleDropdown = () => {
     setShowDropdown(!showDropdown); // 드롭다운 상태 변경
@@ -34,36 +33,36 @@ export default function FamilyLayout() {
         headerStyle: { backgroundColor: '#AFB8DA' },
         headerTitleAlign: 'left',
         headerTitle: () => (
-          <View style={styles.headerContainer}>
-            {/* 왼쪽: 내 페이지로 돌아가기 */}
-            <TouchableOpacity onPress={() => router.push('/(main)')}>
-              <Text style={styles.backText}>내 페이지로 돌아가기</Text>
+          <TouchableOpacity onPress={() => router.push('/(main)')}>
+            <Text style={styles.backText}>◀내 페이지로 돌아가기</Text>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <View style={styles.headerRight}>
+            <TouchableOpacity
+              onPress={handleToggleDropdown}
+              style={styles.selectedFamilyButton}
+            >
+              <Text style={styles.selectedFamilyText}>
+                {selectedFamily ? selectedFamily.familyRole : '가족 선택'}
+              </Text>
             </TouchableOpacity>
-
-            {/* 오른쪽: 가족 선택 토글 */}
-            <View style={styles.rightHeader}>
-              <TouchableOpacity onPress={handleToggleDropdown} style={styles.selectedFamilyButton}>
-                <Text style={styles.selectedFamilyText}>
-                  {selectedFamily ? selectedFamily.familyRole : '가족 선택'}
-                </Text>
-              </TouchableOpacity>
-              {showDropdown && (
-                <View style={styles.dropdown}>
-                  <FlatList
-                    data={familyMembers}
-                    keyExtractor={(item) => item.userId}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        style={styles.dropdownItem}
-                        onPress={() => handleFamilySelect(item)}
-                      >
-                        <Text style={styles.dropdownText}>{item.familyRole}</Text>
-                      </TouchableOpacity>
-                    )}
-                  />
-                </View>
-              )}
-            </View>
+            {showDropdown && (
+              <View style={styles.dropdown}>
+                <FlatList
+                  data={familyMembers}
+                  keyExtractor={(item) => item.userId}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      style={styles.dropdownItem}
+                      onPress={() => handleFamilySelect(item)}
+                    >
+                      <Text style={styles.dropdownText}>{item.familyRole}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            )}
           </View>
         ),
       }}
@@ -91,26 +90,22 @@ export default function FamilyLayout() {
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    width: '100%',
-  },
   backText: {
     fontSize: 16,
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  rightHeader: {
-    position: 'relative',
+  headerRight: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    marginRight: 15,
   },
   selectedFamilyButton: {
     backgroundColor: '#7686DB',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 6,
+    width: 70,
   },
   selectedFamilyText: {
     color: '#FFFFFF',
@@ -118,9 +113,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   dropdown: {
-    position: 'absolute',
-    top: 40,
-    right: 0,
+    position: 'absolute', // 버튼 기준으로 위치
+    top: 40, // 버튼 아래로 배치
+    right: 0, 
     backgroundColor: '#FFFFFF',
     borderRadius: 6,
     shadowColor: '#000',
@@ -128,6 +123,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
     zIndex: 10,
+    width: 70, 
   },
   dropdownItem: {
     padding: 10,

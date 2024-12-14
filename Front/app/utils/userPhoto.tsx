@@ -4,9 +4,11 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { useOCRWithParser } from '../../hooks/useOCRWithParser';
 
+
 export default function UserPhoto() {
   const [photoUri, setPhotoUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [backendResponse, setBackendResponse] = useState<any>(null); // 백엔드 응답 상태 추가
   const router = useRouter();
 
   useFocusEffect(
@@ -61,21 +63,39 @@ export default function UserPhoto() {
 
     setLoading(true);
     try {
-      const result = await useOCRWithParser(photoUri);
+      // useOCRWithParser를 호출하여 백엔드 응답 받기
+      const backendData = await useOCRWithParser(photoUri);
 
-      if (result === null) {
+      if (backendData === null) {
         Alert.alert('오류', '텍스트 인식에 실패했습니다.');
         setLoading(false);
         return;
       }
 
+      // 디버깅용 로그 출력
+      console.log('userPhoto.tsx backendData:', backendData);
+
+      // backendResponse 상태 업데이트
+      setBackendResponse(backendData);
+
       Alert.alert('인식 완료', 'OCR 인식이 완료되었습니다.');
+
+
+      // OCRResult로 데이터 전달
+      console.log('userPhoto.tsx - Navigating to OCRResult:', {
+        photoUri: photoUri,
+        registrationDate: backendData.registrationDate,
+        medicineList: JSON.stringify(backendData.medicineList),
+      });    
+      
+      
+      // OCRResult로 데이터 전달
       router.push({
         pathname: '/utils/OCRResult',
         params: {
           photoUri: photoUri,
-          registrationDate: result.registrationDate,
-          medicineList: JSON.stringify(result.medicineList),
+          registrationDate: backendData.registrationDate,
+          medicineList: JSON.stringify(backendData.medicineList), // JSON 문자열로 변환
         },
       });
     } catch (error) {

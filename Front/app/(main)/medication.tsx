@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Calendar from '@/components/Calendar';
 import MedicationManagement from '@/components/MedicaitonManagement';
 import dayjs from 'dayjs';

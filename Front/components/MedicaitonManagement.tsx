@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet, ScrollView, Image, Modal } from 'react-native';
 
 const MedicationManagement = ({ userId, selectedDate }) => {
     const [medicationData, setMedicationData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false); 
+    const [modalMessage, setModalMessage] = useState('');   
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!userId || !selectedDate) return; // userId 또는 selectedDate가 없는 경우 중단
+            if (!userId || !selectedDate) return;
 
             try {
                 const response = await fetch(
@@ -24,14 +26,14 @@ const MedicationManagement = ({ userId, selectedDate }) => {
                 setMedicationData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setMedicationData([]); // 데이터 없을 때 빈 배열 설정
+                setMedicationData([]);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [userId, selectedDate]); // userId 또는 selectedDate가 변경될 때마다 API 호출
+    }, [userId, selectedDate]);
 
     const handleIntakeConfirmation = async (intakeMedicineListId, currentStatus) => {
         try {
@@ -72,6 +74,10 @@ const MedicationManagement = ({ userId, selectedDate }) => {
 
             if (!response.ok) throw new Error('Failed to update all intake status');
 
+            const result = await response.text(); // "100포인트 적립" 같은 메시지 반환
+            setModalMessage(result); // 모달 메시지 설정
+            setModalVisible(true);
+
             setMedicationData((prevData) =>
                 prevData.map((medication) =>
                     medication.medicationManagementId === medicationManagementId
@@ -107,9 +113,21 @@ const MedicationManagement = ({ userId, selectedDate }) => {
                     <View key={index} style={styles.card}>
                         <View style={styles.header}>
                             <Text style={styles.time}>{medication.notificationTime}</Text>
-                            <Text style={styles.title}>{medication.medicineBagName}</Text>
+
+                            <View style={styles.titleContainer}>
+                                {/* 타입에 따른 이미지 표시 */}
+                                <Image
+                                    source={
+                                        medication.type === 'M'
+                                            ? require('../assets/images/prescriptionDrug.png')
+                                            : require('../assets/images/supplements.png')
+                                    }
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.title}>{medication.medicineBagName}</Text>
+                            </View>
                             <Text style={styles.duration}>
-                                {medication.notificationDate} (n일간)
+                                {medication.notificationDate}
                             </Text>
                         </View>
                         <View style={styles.medicineList}>
@@ -149,6 +167,24 @@ const MedicationManagement = ({ userId, selectedDate }) => {
             ) : (
                 <Text style={styles.noDataText}>복용 기록이 없습니다</Text>
             )}
+            <Modal
+                animationType="none"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>{modalMessage}</Text>
+                        <TouchableOpacity
+                            style={styles.modalButton}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Text style={styles.modalButtonText}>확인</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </ScrollView>
     );
 };
@@ -156,7 +192,7 @@ const MedicationManagement = ({ userId, selectedDate }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#F0F4FF',
     },
     loadingContainer: {
         flex: 1,
@@ -175,6 +211,17 @@ const styles = StyleSheet.create({
     },
     header: {
         marginBottom: 10,
+    },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 10,
+        marginTop: 10,
+    },
+    icon: {
+        width: 30,
+        height: 30,
+        marginRight: 10,
     },
     time: {
         fontSize: 16,
@@ -217,7 +264,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     confirmed: {
-        backgroundColor: '#d4edda',
+        backgroundColor: '#FFA18C',
     },
     pending: {
         backgroundColor: '#f8d7da',
@@ -228,7 +275,7 @@ const styles = StyleSheet.create({
     },
     allIntakeButton: {
         marginTop: 10,
-        backgroundColor: '#007bff',
+        backgroundColor: '#7686DB',
         borderRadius: 6,
         paddingVertical: 10,
         alignItems: 'center',
@@ -242,6 +289,36 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#999',
         marginTop: 20,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        width: '80%',
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 18,
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    modalButton: {
+        backgroundColor: '#AFB8DA',
+        padding: 10,
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+    },
+    modalButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 

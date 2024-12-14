@@ -125,7 +125,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="profile"
+          name="(profile)"
           options={{
             title: '내 정보',
             tabBarIcon: ({ focused }) => (
@@ -138,6 +138,18 @@ export default function TabLayout() {
                 }}
               />
             ),
+          }}
+        />
+        <Tabs.Screen
+          name="notification"
+          options={{
+            href: null, 
+          }}
+        />
+        <Tabs.Screen
+          name="chat"
+          options={{
+            href: null, 
           }}
         />
       </Tabs>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TextInput, Button, FlatList, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Button, FlatList, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connectWebSocket, sendMessage } from '@/components/ChatWebsocket';
 
 const ChatComponent = () => {
@@ -9,6 +9,7 @@ const ChatComponent = () => {
   const [stompClient, setStompClient] = useState(null); // WebSocket 클라이언트
   const [familyRole, setFamilyRole] = useState(null); // 사용자 역할
   const [userId, setUserId] = useState(null); // 사용자 ID
+  const [enteredRoom, setEnteredRoom] = useState(false); // 방 입장 여부
   const flatListRef = useRef(null); // FlatList 참조
 
   // 사용자 데이터 가져오기
@@ -34,9 +35,10 @@ const ChatComponent = () => {
   // 채팅방 조회 또는 생성
   const fetchOrCreateRoom = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/rooms?userId=${userId}`, {
-        method: 'POST',
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/rooms?userId=${userId}`,
+        { method: 'POST' }
+      );
       if (response.ok) {
         const room = await response.json();
         setRoomId(room.roomId); // 기본 roomId 설정
@@ -52,9 +54,10 @@ const ChatComponent = () => {
   // 특정 방의 메시지 내역 가져오기
   const fetchMessages = async (roomId) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/rooms/${roomId}/messages`, {
-        method: 'GET',
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/rooms/${roomId}/messages`,
+        { method: 'GET' }
+      );
       if (response.ok) {
         const data = await response.json();
         setMessages(data); // 기존 메시지 상태 초기화 후 추가
@@ -82,7 +85,7 @@ const ChatComponent = () => {
 
   // WebSocket 구독 로직 및 메시지 내역 가져오기
   useEffect(() => {
-    if (roomId && stompClient && stompClient.connected) {
+    if (enteredRoom && roomId && stompClient && stompClient.connected) {
       console.log('WebSocket connected. Subscribing to room:', roomId);
 
       // 메시지 내역 가져오기
@@ -107,9 +110,9 @@ const ChatComponent = () => {
         console.log(`Unsubscribed from room: ${roomId}`);
       };
     } else if (stompClient && !stompClient.connected) {
-      console.error('STOMP client is not connected yet.');
+      // console.error('STOMP client is not connected yet.');
     }
-  }, [roomId, stompClient]);
+  }, [roomId, stompClient, enteredRoom]);
 
   // 메시지 전송
   const handleSendMessage = () => {
@@ -136,6 +139,14 @@ const ChatComponent = () => {
     if (userId) fetchOrCreateRoom();
   }, [userId]);
 
+  // 방 입장 버튼 클릭 핸들러
+  const handleEnterRoom = () => {
+    if (roomId) {
+      setEnteredRoom(true);
+      console.log(`Entered room: ${roomId}`);
+    }
+  };
+
   // 메시지 렌더링 (카카오톡 스타일)
   const renderMessage = ({ item }) => {
     const isMine = item.sender === familyRole;
@@ -149,11 +160,16 @@ const ChatComponent = () => {
         : styles.otherMessage,
     ];
 
-    const formattedDate = new Date(item.time).toLocaleDateString();
-    const formattedTime = new Date(item.time).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    // 현재 시간 구하기
+    const currentTime = new Date();
+
+    // 시간 데이터 변환 (없을 경우 현재 시간 사용)
+    const formattedDate = item.time
+      ? new Date(item.time).toLocaleDateString()
+      : currentTime.toLocaleDateString(); // 날짜가 없을 경우 현재 날짜
+    const formattedTime = item.time
+      ? new Date(item.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // 시간이 없을 경우 현재 시간
 
     return (
       <View style={messageStyle}>
@@ -168,25 +184,34 @@ const ChatComponent = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={messages}
-        ref={flatListRef} // FlatList 참조 추가
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderMessage}
-        contentContainerStyle={styles.messagesList}
-        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })} // 크기 변경 시 스크롤
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={input}
-          onChangeText={setInput}
-          placeholder="메시지를 입력하세요"
-          onSubmitEditing={handleSendMessage} // 엔터를 누르면 메시지 전송
-          returnKeyType="send" // 키보드의 엔터 키를 전송 키로 설정
-        />
-        <Button title="전송" onPress={handleSendMessage} />
-      </View>
+      {!enteredRoom && (
+        <TouchableOpacity style={styles.reloadButton} onPress={handleEnterRoom}>
+          <Text style={styles.reloadButtonText}>가족방 입장</Text>
+        </TouchableOpacity>
+      )}
+      {enteredRoom && (
+        <>
+          <FlatList
+            data={messages}
+            ref={flatListRef} // FlatList 참조 추가
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderMessage}
+            contentContainerStyle={styles.messagesList}
+            onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })} // 크기 변경 시 스크롤
+          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              value={input}
+              onChangeText={setInput}
+              placeholder="메시지를 입력하세요"
+              onSubmitEditing={handleSendMessage} // 엔터를 누르면 메시지 전송
+              returnKeyType="send" // 키보드의 엔터 키를 전송 키로 설정
+            />
+            <Button title="전송" onPress={handleSendMessage} />
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -254,6 +279,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginRight: 5,
+  },
+  reloadButton: {
+    alignSelf: 'center',
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: '#f5f5f5',
+    borderRadius: 5,
+  },
+  reloadButtonText: {
+    color: '#333',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });
 

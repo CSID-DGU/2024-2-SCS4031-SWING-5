@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   Image,
   TextInput,
   TouchableWithoutFeedback,
@@ -11,6 +10,8 @@ import {
   Keyboard,
   Alert,
   Platform,
+  KeyboardAvoidingView,
+  StyleSheet
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Medicine } from '../../types/types';
@@ -100,7 +101,6 @@ const OCRResult: React.FC = () => {
       return;
     }
 
-    // 등록 시 로그 출력
     console.log('조제일자:', editableDate);
     console.log('약물 리스트:', editableMedicineList);
 
@@ -115,117 +115,113 @@ const OCRResult: React.FC = () => {
 
   return (
     <OCRLayout>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <ScrollView>
-            {photoUri ? (
-              <Image source={{ uri: photoUri }} resizeMode="contain" style={styles.image} />
-            ) : (
-              <Text style={styles.errorText}>이미지가 없습니다.</Text>
-            )}
-
-            <View style={styles.dateContainer}>
-              <Text style={styles.dateLabel}>조제일자:</Text>
-              {Platform.OS === 'web' ? (
-                <input
-                  type="date"
-                  value={editableDate}
-                  onChange={(e) => setEditableDate(e.target.value)}
-                  style={{
-                    fontSize: 16,
-                    border: '1px solid #6c75bd',
-                    borderRadius: 5,
-                    padding: 5,
-                    backgroundColor: isEditing ? '#f4f4f4' : '#F1F1FA',
-                    textAlign: 'center',
-                    marginLeft: 10,
-                  }}
-                  disabled={!isEditing}
-                />
-              ) : (
-                <TextInput
-                  style={[styles.dateInput, isEditing && styles.editModeInput]}
-                  value={editableDate}
-                  editable={isEditing}
-                  onChangeText={setEditableDate}
-                />
-              )}
-            </View>
-
-            {editableMedicineList.map((medicine, index) => (
-              <View key={index} style={styles.medicineContainer}>
-                <TouchableOpacity
-                  style={styles.deleteButton}
-                  onPress={() => handleDeleteMedicine(index)}
-                >
-                  <Image
-                    source={require('../../assets/images/delete.png')}
-                    style={styles.deleteIcon}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+            <View style={styles.container}>
+              <View style={styles.dateContainer}>
+                <Text style={styles.dateLabel}>조제일자:</Text>
+                {Platform.OS === 'web' ? (
+                  <input
+                    type="date"
+                    value={editableDate}
+                    onChange={(e) => setEditableDate(e.target.value)}
+                    style={{
+                      fontSize: 16,
+                      border: '1px solid #6c75bd',
+                      borderRadius: 5,
+                      padding: 5,
+                      backgroundColor: isEditing ? '#f4f4f4' : '#F1F1FA',
+                      textAlign: 'center',
+                      marginLeft: 10,
+                    }}
+                    disabled={!isEditing}
                   />
-                </TouchableOpacity>
-
-                <TextInput
-                  style={[styles.medicineNameInput, isEditing && styles.editModeInput]}
-                  value={medicine.medicineName}
-                  editable={isEditing}
-                  onChangeText={(value) => handleInputChange(index, 'medicineName', value)}
-                />
-
-                <View style={styles.row}>
+                ) : (
                   <TextInput
-                    style={[styles.input, isEditing && styles.editModeInput]}
-                    value={medicine.dosagePerIntake.toString()}
+                    style={[styles.dateInput, isEditing && styles.editModeInput]}
+                    value={editableDate}
                     editable={isEditing}
-                    onChangeText={(value) =>
-                      handleInputChange(index, 'dosagePerIntake', value)
-                    }
-                    keyboardType="numeric"
+                    onChangeText={setEditableDate}
                   />
-                  <Text style={styles.unitText}>정</Text>
-                  <TextInput
-                    style={[styles.input, isEditing && styles.editModeInput]}
-                    value={medicine.frequencyIntake.toString()}
-                    editable={isEditing}
-                    onChangeText={(value) =>
-                      handleInputChange(index, 'frequencyIntake', value)
-                    }
-                    keyboardType="numeric"
-                  />
-                  <Text style={styles.unitText}>회</Text>
-                  <TextInput
-                    style={[styles.input, isEditing && styles.editModeInput]}
-                    value={medicine.durationIntake.toString()}
-                    editable={isEditing}
-                    onChangeText={(value) =>
-                      handleInputChange(index, 'durationIntake', value)
-                    }
-                    keyboardType="numeric"
-                  />
-                  <Text style={styles.unitText}>일</Text>
-                </View>
+                )}
               </View>
-            ))}
 
-            <TouchableOpacity style={styles.addButton} onPress={handleAddMedicine}>
-              <Text style={styles.addButtonText}>추가 등록</Text>
-            </TouchableOpacity>
+              {editableMedicineList.map((medicine, index) => (
+                <View key={index} style={styles.medicineContainer}>
+                  <TouchableOpacity
+                    style={styles.deleteButton}
+                    onPress={() => handleDeleteMedicine(index)}
+                  >
+                    <Image
+                      source={require('../../assets/images/delete.png')}
+                      style={styles.deleteIcon}
+                    />
+                  </TouchableOpacity>
+
+                  <TextInput
+                    style={[styles.medicineNameInput, isEditing && styles.editModeInput]}
+                    value={medicine.medicineName}
+                    editable={isEditing}
+                    onChangeText={(value) => handleInputChange(index, 'medicineName', value)}
+                  />
+
+                  <View style={styles.row}>
+                    <TextInput
+                      style={[styles.input, isEditing && styles.editModeInput]}
+                      value={medicine.dosagePerIntake.toString()}
+                      editable={isEditing}
+                      onChangeText={(value) =>
+                        handleInputChange(index, 'dosagePerIntake', value)
+                      }
+                      keyboardType="numeric"
+                    />
+                    <Text style={styles.unitText}>정</Text>
+                    <TextInput
+                      style={[styles.input, isEditing && styles.editModeInput]}
+                      value={medicine.frequencyIntake.toString()}
+                      editable={isEditing}
+                      onChangeText={(value) =>
+                        handleInputChange(index, 'frequencyIntake', value)
+                      }
+                      keyboardType="numeric"
+                    />
+                    <Text style={styles.unitText}>회</Text>
+                    <TextInput
+                      style={[styles.input, isEditing && styles.editModeInput]}
+                      value={medicine.durationIntake.toString()}
+                      editable={isEditing}
+                      onChangeText={(value) =>
+                        handleInputChange(index, 'durationIntake', value)
+                      }
+                      keyboardType="numeric"
+                    />
+                    <Text style={styles.unitText}>일</Text>
+                  </View>
+                </View>
+              ))}
+
+              <TouchableOpacity style={styles.addButton} onPress={handleAddMedicine}>
+                <Text style={styles.addButtonText}>추가 등록</Text>
+              </TouchableOpacity>
+            </View>
           </ScrollView>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.editButton} onPress={toggleEditing}>
-              <Text style={styles.editButtonText}>{isEditing ? '수정 완료' : '수정하기'}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-              <Text style={styles.registerButtonText}>등록하기</Text>
-            </TouchableOpacity>
-          </View>
+        </TouchableWithoutFeedback>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.editButton} onPress={toggleEditing}>
+            <Text style={styles.editButtonText}>{isEditing ? '수정 완료' : '수정하기'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+            <Text style={styles.registerButtonText}>등록하기</Text>
+          </TouchableOpacity>
         </View>
-      </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </OCRLayout>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   title: {
@@ -381,7 +377,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   editButton: {
-    backgroundColor: '#90CAF9', // 버튼 색상 변경
+    backgroundColor: '#a9aabc', // 버튼 색상 변경
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25, // 둥근 모서리
@@ -397,7 +393,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   registerButton: {
-    backgroundColor: '#42A5F5', // 버튼 색상 변경
+    backgroundColor: '#82a3ff', // 버튼 색상 변경
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,

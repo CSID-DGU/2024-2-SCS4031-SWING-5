@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Calendar from '@/components/Calendar';
 import MedicationManagement from '@/components/MedicaitonManagement';
 import dayjs from 'dayjs';
 import { useUserData } from '@/context/UserDataContext'; // UserDataContext 사용
+import { useSegments } from 'expo-router';
 
 export default function MedicationManagementTab() {
   const { user } = useUserData(); // UserDataContext에서 user 정보 가져오기
   const [selectedDate, setSelectedDate] = useState(dayjs().format('YYYY-MM-DD')); // 초기값: 오늘 날짜
+  const segments = useSegments();
+
+  useEffect(() => {
+    console.log("Current segments:", segments);
+  }, [segments]);
+
+  useEffect(() => {
+    if (segments[1] === 'medication') {
+      console.log('Medication tab pressed, refreshing...');
+      setSelectedDate(dayjs().format('YYYY-MM-DD'));
+    }
+  }, [segments]);
 
   return (
     <View style={styles.container}>

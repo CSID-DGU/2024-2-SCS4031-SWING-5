@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 
-const Calendar = ({ selectedDate, onDateChange, style }) => {
+const Calendar = ({ selectedDate, onDateChange }) => {
   const [weekDates, setWeekDates] = useState([]);
 
   // 선택된 날짜를 기준으로 일주일 날짜 목록을 계산하는 함수
@@ -37,7 +37,7 @@ const Calendar = ({ selectedDate, onDateChange, style }) => {
   };
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container]}>
       {/* 상단에 현재 선택된 날짜 표시 */}
       <Text style={styles.selectedDateText}>
         {dayjs(selectedDate).format('MM월 DD일 (ddd)')}
@@ -83,11 +83,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     backgroundColor: '#AFB8DA',
-  },
-  selectedDateText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
   },
   weekContainer: {
     marginTop: 10,

@@ -404,7 +404,7 @@ export default function SetAlarm() {
       </ScrollView>
     </OCRLayout>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

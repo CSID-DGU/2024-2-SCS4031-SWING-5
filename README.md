@@ -1,4 +1,4 @@
-
+![image](https://github.com/user-attachments/assets/0fa1a0d5-92ca-48cb-a868-7fbd082f9454)
 ![header](https://capsule-render.vercel.app/api?type=waving&color=7686DB&section=header&text=가족연동%20기반%20시니어%20건강관리%20플랫폼%20(WIN;C)&fontSize=35&customColorList=2&height=170)
 
 
@@ -129,7 +129,16 @@
 ```
 ### 2) 
 ```
-여기다가도 
+JDK 17 버전 이용
+IntelliJ IDEA 사용
+
+git clone https://github.com/CSID-DGU/2024-2-SCS4031-SWING-5.git .
+Back/swingback 경로에서 ./gradlew build 통해서 의존성 다운로드
+
+Back/swingback/src/main/resources 경로
+application.yml 에 batch,Oauth2 ,fcm, chatgpt 설정파일을 차례대로 설정
+FCM 설정 SDK파일(firebase-notice.json)을 해당경로에 저장 
+
 ```
 
 

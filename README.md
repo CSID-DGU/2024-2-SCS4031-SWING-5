@@ -112,7 +112,8 @@
 ##### (5) 연동 가족 관련 화면
 ![image](https://github.com/user-attachments/assets/8078c98c-67db-4cec-b62d-6f452e8a17d5)
 
-
+# 🎞️ 시연 동영상
+[SWING 링크영상] (https://youtube.com/shorts/XkRm3YBgkGA?feature=share)  </br> 
 
 ## 🔧 기술 스택
 <img src="https://img.shields.io/badge/expo-%23000020.svg?&style=for-the-badge&logo=expo&logoColor=white" /> <img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" /> <img src="https://img.shields.io/badge/python-%233776AB.svg?&style=for-the-badge&logo=python&logoColor=white" /> <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black" /> <img src="https://img.shields.io/badge/react-%2361DAFB.svg?&style=for-the-badge&logo=react&logoColor=black" /> <img src="https://img.shields.io/badge/typescript-%233178C6.svg?&style=for-the-badge&logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/spring-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white" /> <img src="https://img.shields.io/badge/mysql-%234479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/amazon%20aws-%23232F3E.svg?&style=for-the-badge&logo=amazon%20aws&logoColor=white" />

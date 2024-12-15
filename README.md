@@ -18,6 +18,7 @@
 - 고령화 사회에서 액티브 시니어(특히 5060 세대)의 꾸준한 건강관리를 지원하며, 가족 간의 소통과 상호작용을 통해 건강 관리를 보다 효과적으로 수행할 수 있도록 돕는것을 목표로 
 
 
+
 ##  🚩프로젝트 개요 
 ### 가. 개발 동기 및 목적
 - 대한민국은 2025년 초고령사회로 진입할 예정이며, 이에 따라 5060대의 중장년층
@@ -33,10 +34,12 @@
 갖기 위해 가족 간의 연동기능을 구현하여 건강관리 뿐만 아니라 가족 간의 유대감
 을 강화할 수 있는 ‘소통하는 건강플랫폼’을 개발함
 
+
 ##  🚩필요성
 - 현재 시중에는 다양한 건강관리 어플이 출시되어 있지만, 대부분의 어플이 사용자가 직접 건강 정보를 기록하는 방식에 의존하고 있음. 특히 의약품 복용과 같은 중요한 정보는 사용자의 기록에만 의존하기엔 한계가 있음. 
 - 위와 같은 문제를 해결하기 위해, 자신의 몸을 보다 더 신경써줄 수 있는 보호자와 연동하여 건강 상태를 관리할 수 있는 플랫폼의 필요성을 느낌.  이를 통해 가족 간 서로의 건강 상태를 직관적으로 파악, 기록이나 복약 시간을 놓치는 상황을 예방함으로써 보다 체계적인 건강관리를 가능하게 함.
 - ‘가족과 소통하는 건강플랫폼’은 가족 구성원 간의 정보를 실시간으로 공유하고, 알림 기능을 제공함으로써 가족 단위의 지속적인 건강관리를 지원하고자 함. 또한 개인 맞춤형 관리와 더불어 가족의 건강 상태를 종합적으로 관리할 수 있어 고령화 사회에서의 새로운 헬스 케어 솔루션으로 자리 잡을 수 있을 것으로 기대됨
+
 
 ## 🚩선행기술 및 사례 분석
 ### 가. 기존 유사 시스템
@@ -76,6 +79,7 @@
 - 전반적인 건강관리를 위한 의료 정보, 관리기능 제공  
 
 
+
 ## 🚩서비스 핵심 기능
 ### **(1) OCR 기반 복약 관리**  
 - 약봉투/처방전 스캔을 통해 복약 정보를 자동으로 등록
@@ -100,6 +104,7 @@
 - 연동 가족 간 채팅방을 통해, 건강 알림 제공 및 건강관련 소통을 강화
 
 
+
 ## 🚩최종 결과물 구현 화면
 ##### (1) 플랫폼 기본 화면 : 로그인 및 홈 화면, 건강정보 등록 옵션 화면 
 ![image](https://github.com/user-attachments/assets/47d4bb57-9a12-4234-937d-ef87e4d6a106)
@@ -112,8 +117,21 @@
 ##### (5) 연동 가족 관련 화면
 ![image](https://github.com/user-attachments/assets/8078c98c-67db-4cec-b62d-6f452e8a17d5)
 
+
 # 🎞️ 시연 동영상
 [SWING 링크영상] (https://youtube.com/shorts/XkRm3YBgkGA?feature=share)  </br> 
+
+
+# 💻 실행방법 
+### 1) 
+```
+여기다 명령어 입력
+```
+### 2) 
+```
+여기다가도 
+```
+
 
 ## 🔧 기술 스택
 <img src="https://img.shields.io/badge/expo-%23000020.svg?&style=for-the-badge&logo=expo&logoColor=white" /> <img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" /> <img src="https://img.shields.io/badge/python-%233776AB.svg?&style=for-the-badge&logo=python&logoColor=white" /> <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black" /> <img src="https://img.shields.io/badge/react-%2361DAFB.svg?&style=for-the-badge&logo=react&logoColor=black" /> <img src="https://img.shields.io/badge/typescript-%233178C6.svg?&style=for-the-badge&logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/spring-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white" /> <img src="https://img.shields.io/badge/mysql-%234479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/amazon%20aws-%23232F3E.svg?&style=for-the-badge&logo=amazon%20aws&logoColor=white" />

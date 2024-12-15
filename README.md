@@ -41,18 +41,86 @@
 ## 🚩선행기술 및 사례 분석
 ### 가. 기존 유사 시스템
 #### [1] 파프리카 케어 
+- 처방전/약봉투를 촬영 및 처방내역 직접 입력을 통해 의료기록 관리
+- 처방 약에 대한 ‘설명, 약제특성, 처방질병, 주의사항’ 정보 제공
+- 복용 알람 및 의료 일정 관리
+- 한 계정에 가족을 등록하는 형태로 가족 회원 대리 관리만 가능          
+→ 해당 서비스의 가족 관리 기능의 경우, 유아 혹은 노인을 대상으로 보호자가 대리 관리할 시 적합할 수 있으나, 보다 디지털에 익숙한 5060 세대의 부모님에게는 적합하지 않은 형태  
+→ 5060 세대의 경우 독립적으로 지속적인 건강관리를 펼쳐 나가야 하기 때문에 가족 간 양방향 상호작용을 통한 건강관리가 더 효과적임  
+→ 처방 약에 대한 정보는 상세히 제공되지만, 개인 맞춤형 의료정보나 통합적인 건강관리에 대한 기능 부족
 
 #### [2] 헬피
+- 앱테크를 메인으로 활용하는 건강루틴 형성 플랫폼
+- 복약 및 검진결과 관리기능 포함
+- 건강 미션을 통한 포인트 적립 및 쇼핑 기능 제공 (각종 기프티콘 형태)
+- 자녀 등록을 통한 대리 관리만 가능  
+→ 앱테크를 통한 건강관리 동기부여를 통해 일정 부분 관리 지속성을 향상시킬 수는 있으나 가족 간 상호작용이 전혀 포함되지 않은 개인적인 수준에서만 이루어짐  
+→ 가족 간 상호 건강정보 공유 및 공동 목표 설정 기능 부재  
+→ 앱테크를 통해 적립된 포인트는 기프티콘이나 쇼핑 등의 사용으로 국한되어 있어, 실질적 건강 개선보다는 보상에 집중되는 경향이 있음
 
 #### [3] 캐시워크
+- 걸음 수에 따라 캐시가 적립되어 실생활에 활용할 수 있는 앱테크 플랫폼
+- 소비 칼로리, 움직인 거리/시간 계산  
+→ 건강관리의 범위가 단순 ‘걷기’ 에만 집중되어 있으므로, 폭넓은 전반적 건강관리 필요  
+→ 사용자가 실질적인 건강관리를 목표로 행동 변화를 이루기보다는, 단순히 캐시 적립을 위한 단기적인 습관 형성에 그치는 등, 장기적인 건강관리 습관 형성에는 어려움이 있음
+
+### 나. '윙크(WIN;C)'만의 차별성
+**(1) 5060 액티브시니어 세대를 위한 가족 간 양방향 상호작용 제공**  
+- 가족 개개인의 독립적 건강관리와 더불어, 가족 구성원 간 상호작용을 통해 지속적 건강관리의 동기부여 제공  
+
+**(2) 가족 간 건강정보 공유 기능 제공**
+- 가족 구성원이 각자의 건강 정보와 복약 기록을 세부적으로 카테고리화 하여 공유함으로써 개인의 건강관리를 넘어 가족 전체의 상호 간 건강관리를 실현  
+- 가족 구성원에게 상세한 복약 및 건강 정보를 제공하면서 동시에 사용자 본인이 공개 여부를 설정할 수 있어 연동된 가족이더라도 공개하고 싶지 않은 개인정보는 철저히 보안됨  
+
+**(3) 의료기록 및 복약, 병원 일정 관리 뿐 아니라 통합 헬스 케어 플랫폼으로서 작용**
+- 전반적인 건강관리를 위한 의료 정보, 관리기능 제공  
+
+
+## 🚩서비스 핵심 기능
+### **(1) OCR 기반 복약 관리**  
+- 약봉투/처방전 스캔을 통해 복약 정보를 자동으로 등록
+- 사용자 맞춤형 복약 알림(시간, 횟수) 설정 및 연동 가족 공개 여부 설정 가능
+- 복약 시간에 맞춰 사용자에게 알림이 전송되며, 복약 여부 기록을 통해 복약이력 관리
+- 가족 구성원이 복약 상태를 실시간으로 확인 가능하며, 미복약 시 추가 알림 전송
+
+### **(2) 건강데이터 관리**
+- 혈압, 혈당 등의 건강 데이터를 사용자가 직접 입력하고, 날짜와 시간 정보를 기반으로 기록 관리
+- 입력된 건강 데이터는 그래프 형태로 시각화되어 건강 상태 변화를 쉽게 파악 가능
+- 가족 구성원이 함께 데이터를 확인하며 협력적으로 건강 상태를 관리 가능
+
+### **(3) 건강 캘린더**
+- 사용자의 복약 일정, 혈당/혈압 기록, 건강 일정을 한눈에 확인할 수 있는 직관적인 건강 캘린더 제공
+- 가족 구성원 간 일정 공유를 통해 서로의 건강 스케줄을 확인하며 협력적 관리 가능
+- 개인 일정은 사용자가 직접 수정하며, 다른 가족 구성원에게는 읽기 전용으로 표시되어 데이터 보호 강화.
+
+### **(4) 가족 연동**
+- 가족 구성원을 초대하여 그룹을 생성하고, 구성원 간 건강 데이터 및 일정 공유 가능
+- 초대 코드를 통해 손쉽게 가족 구성원 추가 및 기존 그룹과 연동 가능
+- 구성원 간 데이터 공유는 사용자가 설정한 권한에 따라 관리되어 안전성과 협력 제공
+- 연동 가족 간 채팅방을 통해, 건강 알림 제공 및 건강관련 소통을 강화
+
+
+## 🚩최종 결과물 구현 화면
+##### (1) 플랫폼 기본 화면 : 로그인 및 홈 화면, 건강정보 등록 옵션 화면 
+![image](https://github.com/user-attachments/assets/47d4bb57-9a12-4234-937d-ef87e4d6a106)
+##### (2) 복약관리 관련 화면
+![image](https://github.com/user-attachments/assets/3a19f298-5809-4548-a6fb-7d2537c54576)
+##### (3) 건강 데이터 등록 화면 (영양제/혈압혈당/스케줄 등록)
+![image](https://github.com/user-attachments/assets/0259c49e-2d2b-4729-9380-fd5aebcb20c4)
+##### (4) 건강 캘린더 화면 및 리워드 제공 화면
+![image](https://github.com/user-attachments/assets/1be5654a-5873-4d08-96e2-4c27e55cdde3)
+##### (5) 연동 가족 관련 화면
+![image](https://github.com/user-attachments/assets/8078c98c-67db-4cec-b62d-6f452e8a17d5)
+
 
 
 ## 🔧 기술 스택
-<img src="https://img.shields.io/badge/expo-%23000020.svg?&style=for-the-badge&logo=expo&logoColor=white" /> <img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" /> <img src="https://img.shields.io/badge/python-%233776AB.svg?&style=for-the-badge&logo=python&logoColor=white" /> <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black" /> <img src="https://img.shields.io/badge/react-%2361DAFB.svg?&style=for-the-badge&logo=react&logoColor=black" /> <img src="https://img.shields.io/badge/typescript-%233178C6.svg?&style=for-the-badge&logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/spring-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white" /> <img src="https://img.shields.io/badge/mysql-%234479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/amazon%20aws-%23232F3E.svg?&style=for-the-badge&logo=amazon%20aws&logoColor=white" /> <img src="https://img.shields.io/badge/reactnative-%2361DAFB.svg?&style=for-the-badge&logo=react&logoColor=black" />
-
-
-
-
-
-
-
+<img src="https://img.shields.io/badge/expo-%23000020.svg?&style=for-the-badge&logo=expo&logoColor=white" />
+<img src="https://img.shields.io/badge/notion-%23000000.svg?&style=for-the-badge&logo=notion&logoColor=white" />
+<img src="https://img.shields.io/badge/python-%233776AB.svg?&style=for-the-badge&logo=python&logoColor=white" />
+<img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=black" />
+<img src="https://img.shields.io/badge/react-%2361DAFB.svg?&style=for-the-badge&logo=react&logoColor=black" />
+<img src="https://img.shields.io/badge/typescript-%233178C6.svg?&style=for-the-badge&logo=typescript&logoColor=white" />
+<img src="https://img.shields.io/badge/spring-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white" />
+<img src="https://img.shields.io/badge/mysql-%234479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white" />
+<img src="https://img.shields.io/badge/amazon%20aws-%23232F3E.svg?&style=for-the-badge&logo=amazon%20aws&logoColor=white" />

@@ -122,22 +122,30 @@
 
 
 # 💻 실행방법 
-### 1) 
+### 1) Frontend 실행 방법
+Front 경로로 이동하여 모듈 설치
 ```
-여기다 명령어 입력
+npm i
 ```
-### 2) 
+expo 앱 실행
 ```
+npx expo start
+```
+### 2) Backend 실행 방법
 JDK 17 버전 이용
+
 IntelliJ IDEA 사용
 
-git clone https://github.com/CSID-DGU/2024-2-SCS4031-SWING-5.git .
-Back/swingback 경로에서 ./gradlew build 통해서 의존성 다운로드
-
+Back/swingback 경로에서 의존성 다운로드
+```
+./gradlew build
+```
+```
 Back/swingback/src/main/resources 경로
 application.yml 에 batch,Oauth2 ,fcm, chatgpt 설정파일을 차례대로 설정
 FCM 설정 SDK파일(firebase-notice.json)을 해당경로에 저장 
 
+SwingbackApplication 실행
 ```
 
 

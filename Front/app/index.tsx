@@ -17,23 +17,25 @@ export default function Index() {
       if (!isLoading) {
         if (user) {
           try {
-            // fetchFamilyMembers를 호출하여 가족 데이터 가져오기
+            // 가족 정보 가져오기
             const familyMembers = await fetchFamilyMembers(user.userId);
-            setFamilyMembers(familyMembers);
-
-            router.replace('/(main)'); // 메인 페이지로 이동
+            // 가족 정보가 없으면 빈 배열로 초기화
+            setFamilyMembers(familyMembers || []);
+  
+            router.replace('/(main)'); 
           } catch (error) {
             console.error('Error initializing app:', error);
-            router.replace('/login'); // 에러 발생 시 로그인 페이지로 이동
+            router.replace('/(main)'); 
           }
         } else {
-          router.replace('/login'); // 로그인되지 않은 경우 로그인 페이지로 이동
+          router.replace('/login');
         }
       }
     };
-
+  
     initializeApp();
   }, [isLoading, user, router, setFamilyMembers]);
+  
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

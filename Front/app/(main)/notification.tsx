@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useUserData } from '@/context/UserDataContext';
+import { useFamilyContext } from '@/context/FamilyContext';
+import { fetchFamilyMembers } from '@/api/familyApi';
 
 const NotificationPage = () => {
   const { user, isLoading: isUserLoading } = useUserData();
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { setFamilyMembers } = useFamilyContext();
 
   useEffect(() => {
     if (!user?.userId) return;
@@ -62,6 +65,10 @@ const NotificationPage = () => {
       setNotifications((prevNotifications) =>
         prevNotifications.filter((notification) => notification.requestId !== requestId)
       );
+
+      const updatedFamilyMembers = await fetchFamilyMembers(user.userId); // 최신 데이터 가져오기
+      setFamilyMembers(updatedFamilyMembers); // FamilyContext 업데이트
+
     } catch (err) {
       Alert.alert('오류', err.message);
     }

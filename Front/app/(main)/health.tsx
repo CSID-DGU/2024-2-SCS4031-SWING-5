@@ -42,7 +42,7 @@ const HealthCalendar = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/calendar/${user.userId}`,
+          `https://www.parking-predict.site/api/calendar/${user.userId}`,
           {
             params: { date: currentDate },
             withCredentials: true,

@@ -19,7 +19,7 @@
 //     const userData = { familyRole, phoneNumber, gender, age };
 
 //     // 백엔드로 POST 요청
-//     fetch('http://localhost:8080/api/extrainfo', {
+//     fetch('https://www.parking-predict.site/api/extrainfo', {
 //       method: 'POST',
 //       credentials: 'include',
 //       headers: {
@@ -183,7 +183,7 @@ export default function UserExtraPage() {
     const userData = { familyRole, phoneNumber, gender, age };
 
     // 백엔드로 POST 요청
-    fetch('http://localhost:8080/api/extrainfo', {
+    fetch('https://www.parking-predict.site/api/extrainfo', {
       method: 'POST',
       credentials: 'include',
       headers: {

@@ -15,7 +15,7 @@ const ChatComponent = () => {
   // 사용자 데이터 가져오기
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/userdata', {
+      const response = await fetch('https://www.parking-predict.site/api/userdata', {
         method: 'GET',
         credentials: 'include', // 인증 포함
       });
@@ -36,7 +36,7 @@ const ChatComponent = () => {
   const fetchOrCreateRoom = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/rooms?userId=${userId}`,
+        `https://www.parking-predict.site/api/rooms?userId=${userId}`,
         { method: 'POST' }
       );
       if (response.ok) {
@@ -55,7 +55,7 @@ const ChatComponent = () => {
   const fetchMessages = async (roomId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/rooms/${roomId}/messages`,
+        `https://www.parking-predict.site/api/rooms/${roomId}/messages`,
         { method: 'GET' }
       );
       if (response.ok) {

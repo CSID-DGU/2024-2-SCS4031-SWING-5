@@ -1,7 +1,7 @@
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-const URL = 'http://localhost:8080/stomp/chat';
+const URL = 'https://www.parking-predict.site/stomp/chat';
 
 export const connectWebSocket = (onMessageReceived) => {
   const client = new Client({

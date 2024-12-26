@@ -4,7 +4,7 @@ import { useUserData } from '@/context/UserDataContext';
 
 const fetchRewardPoints = async (userId) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/reward/${userId}`, {
+    const response = await fetch(`https://www.parking-predict.site/api/reward/${userId}`, {
       method: 'GET',
       credentials: 'include',
       headers: {

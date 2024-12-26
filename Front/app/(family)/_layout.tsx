@@ -126,10 +126,11 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: 'bold',
+    textAlign: 'center'
   },
   dropdown: {
-    position: 'absolute', // 버튼 기준으로 위치
-    top: 40, // 버튼 아래로 배치
+    position: 'absolute', 
+    top: 40, 
     right: 0, 
     backgroundColor: '#FFFFFF',
     borderRadius: 6,
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
   dropdownText: {
     fontSize: 14,
     color: '#595958',
+    textAlign: 'center'
   },
   tabIcon: {
     width: 28, // 탭 아이콘 크기 조정

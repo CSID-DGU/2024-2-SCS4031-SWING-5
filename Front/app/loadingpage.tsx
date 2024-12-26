@@ -2,41 +2,51 @@ import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUserData } from '../context/UserDataContext';
+import { useFamilyContext } from '../context/FamilyContext';
+import { fetchFamilyMembers } from '../api/familyApi';
 
 export default function LoadingPage() {
   const router = useRouter();
   const { updateUser } = useUserData();
+  const { setFamilyMembers } = useFamilyContext();
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserDataAndFamily = async () => {
       try {
-        // 사용자 정보를 서버에서 가져오는 API 호출
-        // const response = await fetch('http://172.30.1.3:8080/api/userdata', {
-        const response = await fetch('http://localhost:8080/api/userdata', {
+        // 사용자 정보 요청
+        const userResponse = await fetch('https://www.parking-predict.site/api/userdata', {
           method: 'GET',
           credentials: 'include',
         });
-        const data = await response.json();
+        const userData = await userResponse.json();
 
         // 사용자 정보 업데이트
-        if (data.name) {
-          await updateUser({ name: data.name, userId: data.userId, familyRole: data.familyRole });
+        if (userData.name) {
+          await updateUser({
+            name: userData.name,
+            userId: userData.userId,
+            familyRole: userData.familyRole,
+          });
         }
 
+        // 가족 정보 요청
+        const familyMembers = await fetchFamilyMembers(userData.userId);
+        setFamilyMembers(familyMembers || []);
+
         // family_role에 따라 페이지 라우팅
-        if (data.familyRole === null) {
+        if (userData.familyRole === null) {
           router.replace('/userextra');
         } else {
           router.replace('/(main)');
         }
       } catch (error) {
-        console.error('Error fetching user info:', error);
+        console.error('Error fetching user or family info:', error);
         router.replace('/login');
       }
     };
 
-    fetchUserData();
-  }, [router, updateUser]);
+    fetchUserDataAndFamily();
+  }, [router, updateUser, setFamilyMembers]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

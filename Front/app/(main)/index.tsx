@@ -13,6 +13,7 @@ import weekday from 'dayjs/plugin/weekday';
 import isToday from 'dayjs/plugin/isToday';
 import Schedule from '@/components/Schedule';
 import { ScrollView } from 'react-native-gesture-handler';
+import FamilyContainer from '@/components/FamilyContainer';
 
 dayjs.extend(weekday);
 dayjs.extend(isToday);
@@ -89,7 +90,8 @@ export default function HomeScreen() {
                 </View>
             )}
             <RewardPoints refreshKey={refreshKey} />
-            <View style={styles.familyContainer}>
+            <FamilyContainer/>
+            {/* <View style={styles.familyContainer}>
                 <Text style={styles.title}>우리가족</Text>
                 <View style={styles.familyList}>
                     {familyMembers.length > 0 ? (
@@ -106,7 +108,7 @@ export default function HomeScreen() {
                         <Text style={styles.noFamilyText}>아직 연동된 가족이 없습니다.</Text>
                     )}
                 </View>
-            </View>
+            </View> */}
             {user && user.userId ? (
                 <Schedule userId={user.userId} selectedDate={todayFormatted} />
             ) : (

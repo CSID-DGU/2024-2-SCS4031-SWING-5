@@ -21,7 +21,7 @@ export default function FamilyLink({ useNavigation }) {
   // 가족 연동 여부 확인
   const checkFamilyLink = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/family/code/${user.userId}`, {
+      const response = await fetch(`https://www.parking-predict.site/api/family/code/${user.userId}`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -43,7 +43,7 @@ export default function FamilyLink({ useNavigation }) {
   const fetchFamilyCode = async () => {
     try {
       setLoading(true); // 로딩 상태 설정
-      const response = await fetch(`http://localhost:8080/api/family/code`, {
+      const response = await fetch(`https://www.parking-predict.site/api/family/code`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -67,7 +67,7 @@ export default function FamilyLink({ useNavigation }) {
     }    
     try {
       setLoading(true); // 로딩 상태 설정
-      const response = await fetch(`http://localhost:8080/api/code/request`, {
+      const response = await fetch(`https://www.parking-predict.site/api/code/request`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -97,7 +97,7 @@ export default function FamilyLink({ useNavigation }) {
   const handleFamilyUnlink = async () => {
     try {
       setLoading(true); // 로딩 상태 설정
-      const response = await fetch(`http://localhost:8080/api/family/code/${user.userId}`, {
+      const response = await fetch(`https://www.parking-predict.site/api/family/code/${user.userId}`, {
         method: 'DELETE',
         credentials: 'include',
       });

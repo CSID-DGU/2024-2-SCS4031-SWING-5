@@ -11,7 +11,7 @@ const FamilyMedication = ({ userId, selectedDate }) => {
 
             try {
                 const response = await fetch(
-                    `http://localhost:8080/api/medicine/${userId}?date=${selectedDate}`,
+                    `https://www.parking-predict.site/api/medicine/${userId}?date=${selectedDate}`,
                     {
                         method: 'GET',
                         credentials: 'include',

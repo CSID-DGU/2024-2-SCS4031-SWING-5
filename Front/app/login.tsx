@@ -5,7 +5,7 @@ import * as Linking from 'expo-linking';
 
 export default function Login() {
   // 환경에 따라 다른 URL 설정
-  const backendUrl = Platform.OS === 'web' ? 'http://localhost:8080' : 'http://172.30.1.24:8080';
+  const backendUrl = Platform.OS === 'web' ? 'https://www.parking-predict.site' : 'http://172.30.1.24:8080';
 
   const handleButtonClickKaKao = () => {
     const kakaoUrl = `${backendUrl}/oauth2/authorization/kakao?redirect_uri=myapp://loadingpage`;
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
 //   const [webViewUrl, setWebViewUrl] = useState('');
 //   const router = useRouter(); // 화면 전환을 위한 라우터
 
-//   const backendUrl = Platform.OS === 'web' ? 'http://localhost:8080' : 'http://172.30.1.3:8080';
+//   const backendUrl = Platform.OS === 'web' ? 'https://www.parking-predict.site' : 'http://172.30.1.3:8080';
 
 //   // WebView 열기
 //   const openWebView = (url) => {

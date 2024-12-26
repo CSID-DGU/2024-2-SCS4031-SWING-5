@@ -46,7 +46,7 @@ export default function Schedule() {
   console.log('POST 데이터:', postData);
 
     try {
-      await axios.post('http://localhost:8080/api/healthcare', postData, {
+      await axios.post('https://www.parking-predict.site/api/healthcare', postData, {
       withCredentials: true, // 쿠키 포함해서 전송 
       });
       Alert.alert('성공', '스케줄이 성공적으로 저장되었습니다.');

@@ -51,7 +51,7 @@ export const useOCRWithParser = async (imageUri: string): Promise<PrescriptionIn
 
     const backendRequestBody = JSON.stringify({ body: rawText });
 
-    const backendResponse = await fetch('http://localhost:8080/api/ocr/process', {
+    const backendResponse = await fetch('https://www.parking-predict.site/api/ocr/process', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -79,7 +79,7 @@ export default function Blood() {
         ];
 
     try {
-      await axios.post('http://localhost:8080/api/healthcare', postData, {
+      await axios.post('https://www.parking-predict.site/api/healthcare', postData, {
         withCredentials: true,
       });
       alert('데이터가 성공적으로 저장되었습니다.');

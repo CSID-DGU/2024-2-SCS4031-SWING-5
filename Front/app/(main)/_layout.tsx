@@ -52,6 +52,12 @@ export default function TabLayout() {
                   style={styles.headerIcon}
                 />
               </Link>
+              <Link href="/chatbot">
+                <Image
+                  source={require('../../assets/images/chatbot.png')}
+                  style={styles.headerIcon2}
+                />
+              </Link>
             </View>
           ),
         }}
@@ -92,21 +98,16 @@ export default function TabLayout() {
         <Tabs.Screen
           name="registerOptions"
           options={{
-            tabBarButton: (props) => (
-              <TouchableOpacity
-                {...props}
+            tabBarLabel: '', // 탭 이름 제거
+            tabBarIcon: () => (
+              <Image
+                source={require('../../assets/images/plus_button.png')}
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  top: -5, // 중앙 버튼 위치 조정
+                  width: 50,
+                  height: 50,
+                  opacity: 1, // 고정된 투명도
                 }}
-                onPress={() => router.push('/(main)/registerOptions')}
-              >
-                <Image
-                  source={require('../../assets/images/plus_button.png')}
-                  style={{ width: 50, height: 50 }} // 중앙 버튼 크기 조정
-                />
-              </TouchableOpacity>
+              />
             ),
           }}
         />
@@ -154,6 +155,13 @@ export default function TabLayout() {
             href: null, 
           }}
         />
+        <Tabs.Screen
+          name="chatbot"
+          options={{
+            href: null, 
+            headerShown: false
+          }}
+        />
       </Tabs>
     </SafeAreaView>
   );
@@ -167,7 +175,7 @@ const styles = StyleSheet.create({
   },
   familyRoleText: {
     color: '#ffffff',
-    fontSize: 19,
+    fontSize: 21,
     fontWeight: 'bold',
   },
   headerRight: {
@@ -180,12 +188,17 @@ const styles = StyleSheet.create({
     height: 24,
     marginHorizontal: 10,
   },
+  headerIcon2: {
+    width: 32,
+    height: 32,
+    marginHorizontal: 8,
+  },
   tabIcon: {
     width: 28, // 탭 아이콘 크기 조정
     height: 28,
     marginBottom: 5, // 여백 추가
   },
   rightP: {
-    width: 9
+    width: 2
   }
 });

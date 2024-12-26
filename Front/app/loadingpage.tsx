@@ -12,7 +12,7 @@ export default function LoadingPage() {
       try {
         // 사용자 정보를 서버에서 가져오는 API 호출
         // const response = await fetch('http://172.30.1.3:8080/api/userdata', {
-        const response = await fetch('http://localhost:8080/api/userdata', {
+        const response = await fetch('https://www.parking-predict.site/api/userdata', {
           method: 'GET',
           credentials: 'include',
         });

@@ -13,6 +13,7 @@ import weekday from 'dayjs/plugin/weekday';
 import isToday from 'dayjs/plugin/isToday';
 import Schedule from '@/components/Schedule';
 import { ScrollView } from 'react-native-gesture-handler';
+import FamilyContainer from '@/components/FamilyContainer';
 
 dayjs.extend(weekday);
 dayjs.extend(isToday);
@@ -42,20 +43,20 @@ export default function HomeScreen() {
         console.log("Current segments:", segments);
       }, [segments]);
 
-    useEffect(() => {
-        const loadFamilyData = async () => {
-            if (user && familyMembers.length === 0) {
-                try {
-                    const fetchedMembers = await fetchFamilyMembers(user.userId); 
-                    setFamilyMembers(fetchedMembers); 
-                } catch (error) {
-                    // console.error('Failed to fetch family members:', error);
-                }
-            }
-        };
+    // useEffect(() => {
+    //     const loadFamilyData = async () => {
+    //         if (user && familyMembers.length === 0) {
+    //             try {
+    //                 const fetchedMembers = await fetchFamilyMembers(user.userId); 
+    //                 setFamilyMembers(fetchedMembers); 
+    //             } catch (error) {
+    //                 console.error('Failed to fetch family members:', error);
+    //             }
+    //         }
+    //     };
 
-        loadFamilyData();
-    }, [user, familyMembers, setFamilyMembers]);
+    //     loadFamilyData();
+    // }, [user, familyMembers, setFamilyMembers]);
 
     // AsyncStorage 로그 확인 (디버깅용)
     // AsyncStorage.getAllKeys().then((keys) => {
@@ -65,8 +66,8 @@ export default function HomeScreen() {
     // });
 
     React.useEffect(() => {
-        // console.log('Family members from context:', familyMembers);
-        // console.log('Selected family from context:', selectedFamily);
+        console.log('Family members from context:', familyMembers);
+        console.log('Selected family from context:', selectedFamily);
     }, [familyMembers, selectedFamily]);
 
     const handleSelectFamily = (member) => {
@@ -89,20 +90,25 @@ export default function HomeScreen() {
                 </View>
             )}
             <RewardPoints refreshKey={refreshKey} />
-            <View style={styles.familyContainer}>
+            <FamilyContainer/>
+            {/* <View style={styles.familyContainer}>
                 <Text style={styles.title}>우리가족</Text>
                 <View style={styles.familyList}>
-                    {familyMembers.map((member) => (
-                        <TouchableOpacity
-                            key={member.userId}
-                            style={styles.familyButton}
-                            onPress={() => handleSelectFamily(member)}
-                        >
-                            <Text style={styles.familyButtonText}>{member.familyRole}</Text>
-                        </TouchableOpacity>
-                    ))}
+                    {familyMembers.length > 0 ? (
+                        familyMembers.map((member) => (
+                            <TouchableOpacity
+                                key={member.userId}
+                                style={styles.familyButton}
+                                onPress={() => handleSelectFamily(member)}
+                            >
+                                <Text style={styles.familyButtonText}>{member.familyRole}</Text>
+                            </TouchableOpacity>
+                        ))
+                    ) : (
+                        <Text style={styles.noFamilyText}>아직 연동된 가족이 없습니다.</Text>
+                    )}
                 </View>
-            </View>
+            </View> */}
             {user && user.userId ? (
                 <Schedule userId={user.userId} selectedDate={todayFormatted} />
             ) : (
@@ -190,5 +196,10 @@ const styles = StyleSheet.create({
     scrollContainer: {
         marginBottom:10,
         marginTop: 2,
+    },
+    noFamilyText: {
+        color: '#999',
+        fontSize: 14,
+        fontWeight: 'bold',
     }
 });

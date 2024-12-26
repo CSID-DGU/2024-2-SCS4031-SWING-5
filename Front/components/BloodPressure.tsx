@@ -21,7 +21,7 @@ export default function BloodPressure({ selectedDate, userId }) {
       setBloodPressure([]);
 
       try {
-        const response = await axios.get(`http://localhost:8080/api/calendar/day/${userId}`, {
+        const response = await axios.get(`https://www.parking-predict.site/api/calendar/day/${userId}`, {
           params: { date: selectedDate },
           withCredentials: true,
         });

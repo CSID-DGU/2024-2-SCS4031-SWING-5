@@ -14,7 +14,7 @@ const NotificationPage = () => {
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/notification?userId=${user.userId}`,
+          `https://www.parking-predict.site/api/notification?userId=${user.userId}`,
           {
             method: 'GET',
             credentials: 'include',
@@ -45,7 +45,7 @@ const NotificationPage = () => {
         acceptOrReject, // true(승인) 또는 false(거부)
       };
 
-      const response = await fetch('http://localhost:8080/api/code/request/result', {
+      const response = await fetch('https://www.parking-predict.site/api/code/request/result', {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -71,7 +71,7 @@ const NotificationPage = () => {
     try {
       const body = { notificationId };
 
-      const response = await fetch('http://localhost:8080/api/notification', {
+      const response = await fetch('https://www.parking-predict.site/api/notification', {
         method: 'POST',
         credentials: 'include',
         headers: {

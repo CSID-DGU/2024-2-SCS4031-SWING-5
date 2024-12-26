@@ -192,7 +192,7 @@ export default function SetAlarm() {
     console.log('등록된 데이터:', payload);
 
     try {
-      const response = await fetch('http://localhost:8080/api/medicine', {
+      const response = await fetch('https://www.parking-predict.site/api/medicine', {
         method: 'POST',
         credentials: 'include',
         headers: {

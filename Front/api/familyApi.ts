@@ -9,7 +9,7 @@ export interface FamilyMember {
   // 더미 데이터를 반환하는 함수
   export const fetchFamilyMembers = async (userId: string): Promise<FamilyMember[]> => {
     try{
-    const response = await fetch(`http://localhost:8080/api/family/${userId}`, {
+    const response = await fetch(`https://www.parking-predict.site/api/family/${userId}`, {
       method: 'GET',
       credentials: 'include',
     });

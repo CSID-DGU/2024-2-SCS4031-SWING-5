@@ -22,7 +22,7 @@ export default function UserInfo({ useNavigation }) {
   
     const fetchUserData = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:8080/api/mypage/update/${userId}`, {
+        const response = await fetch(`https://www.parking-predict.site/api/mypage/update/${userId}`, {
           method: 'GET',
           credentials: 'include', // 쿠키 포함
         });
@@ -57,7 +57,7 @@ export default function UserInfo({ useNavigation }) {
   
     const handleSave = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/mypage/update', {
+        const response = await fetch('https://www.parking-predict.site/api/mypage/update', {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
